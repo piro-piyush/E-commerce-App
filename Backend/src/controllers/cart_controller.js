@@ -24,6 +24,7 @@ const CartController = {
                 {
                     $push: { items: { product: product, quantity: quantity } }
                 },
+                { new: true }
             );
             return res.json({ success: true, data: updatedCart.items, message: "Product added to cart" });
         } catch (ex) {
@@ -36,10 +37,24 @@ const CartController = {
             const { user, product } = req.body;
             const updatedCart = await CartModel.findOneAndUpdate(
                 { user: user },
-                { $pull: { item: { product: product } } }
+                { $pull: { item: { product: product } } },
+                { new: true }
             );
 
             return res.json({ success: true, message: "Product removed from cart" });
+        } catch (ex) {
+            return res.json({ success: false, message: ex.message });
+        }
+    },
+
+    getCartByUserID: async function (req, res) {
+        try {
+            const user = req.params.user;
+            const foundCart = await CartModel.findOne({ user: user });
+            if (!foundCart) {
+                return res.json({ success: true, data: [], message: "No cart exist!!" });
+            }
+            return res.json({ success: true, data: foundCart, message: "Cart Found !!" });
         } catch (ex) {
             return res.json({ success: false, message: ex.message });
         }
