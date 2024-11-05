@@ -32,8 +32,11 @@ app.use('/api/product', ProductRoutes);
 const CartRoutes = require('./routes/cart_routes');
 app.use('/api/cart', CartRoutes);
 
+const OrderRoutes = require('./routes/order_routes');
+app.use('/api/order', OrderRoutes)
+
 app.get('/', function (req, res) {
-    res.send("Hi I am home page");
+    res.json({message:"Api works fine"});
 });
 
 app.listen(PORT, () => console.log(`Server started at PORT: ${PORT} \n\nURL: http://localhost:${PORT}`));
