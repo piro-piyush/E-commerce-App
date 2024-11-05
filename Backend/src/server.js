@@ -29,6 +29,9 @@ app.use('/api/category', CategoryRoutes);
 const ProductRoutes = require('./routes/product_route');
 app.use('/api/product', ProductRoutes);
 
+const CartRoutes = require('./routes/cart_routes');
+app.use('/api/cart', CartRoutes);
+
 app.get('/', function (req, res) {
     res.send("Hi I am home page");
 });
