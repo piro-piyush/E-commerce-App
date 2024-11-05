@@ -19,6 +19,16 @@ const CategoryController = {
         } catch (ex) {
             return res.json({ success: false, message: ex });
         }
+    },
+
+    fetchCategoryById: async function(req, res){
+        try {
+            const categoryId = req.params.id;
+            const foundCategory = await Categorymodel.findById(categoryId);
+            return res.json({ success: true, data: foundCategory, });
+        } catch (ex) {
+            return res.json({ success: false, message: ex });
+        }
     }
 };
 
