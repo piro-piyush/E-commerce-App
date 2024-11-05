@@ -26,6 +26,9 @@ app.use('/api/user', UserRoutes);
 const CategoryRoutes = require('./routes/category_route');
 app.use('/api/category', CategoryRoutes);
 
+const ProductRoutes = require('./routes/product_route');
+app.use('/api/product', ProductRoutes);
+
 app.get('/', function (req, res) {
     res.send("Hi I am home page");
 });
