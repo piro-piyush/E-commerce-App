@@ -1,5 +1,7 @@
+import 'package:ecommerce/logic/cubits/user_cubit/user_cubit.dart';
 import 'package:ecommerce/presentation/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/routes.dart';
 
@@ -12,10 +14,15 @@ class EcommerceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute:Routes.onGenerateRoutes,
-      initialRoute: LoginScreen.routeName,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => UserCubit()),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute:Routes.onGenerateRoutes,
+        initialRoute: LoginScreen.routeName,
+      ),
     );
   }
 }
