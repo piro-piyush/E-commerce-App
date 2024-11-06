@@ -1,5 +1,5 @@
 import 'package:ecommerce/data/models/users/user_model.dart';
-import 'package:ecommerce/data/respositories/user_repository.dart';
+import 'package:ecommerce/data/repositories/user_repository.dart';
 import 'package:ecommerce/logic/cubits/user_cubit/user_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
