@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ecommerce/logic/cubits/user_cubit/user_cubit.dart';
 import 'package:ecommerce/presentation/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/routes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
   runApp(const EcommerceApp());
 }
 
@@ -24,5 +28,19 @@ class EcommerceApp extends StatelessWidget {
         initialRoute: LoginScreen.routeName,
       ),
     );
+  }
+}
+
+class MyBlocObserver extends BlocObserver {
+  @override
+  void onCreate(BlocBase bloc) {
+    log("Created: $bloc");
+    super.onCreate(bloc);
+  }
+
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    log("Change in $bloc : $change");
+    super.onChange(bloc, change);
   }
 }

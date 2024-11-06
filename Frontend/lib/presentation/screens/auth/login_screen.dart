@@ -1,9 +1,12 @@
 import 'package:ecommerce/core/ui.dart';
+import 'package:ecommerce/presentation/screens/auth/providers/login_provider.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
 import 'package:ecommerce/presentation/widgets/link_button.dart';
 import 'package:ecommerce/presentation/widgets/primary_button.dart';
 import 'package:ecommerce/presentation/widgets/primary_text_field.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,8 +18,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  late LoginProvider provider = Provider.of<LoginProvider>(context, listen: false);
+
+  @override
+  void initState() {
+    super.initState();
+    provider = Provider.of<LoginProvider>(context, listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,23 +47,48 @@ class _LoginScreenState extends State<LoginScreen> {
             style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
           ),
           const GapWidget(),
+          (provider.error != "")
+              ? Text(
+                  provider.error,
+                  style: const TextStyle(color: Colors.red),
+                )
+              : const SizedBox(),
           PrimaryTextField(
-            controller: passwordController,
+            controller: provider.emailController,
             labelText: "Email",
+            validator: (value) {
+              if(value == null || value.trim().isEmpty) {
+                return "Email address is required!";
+              }
+
+              if(!EmailValidator.validate(value.trim())) {
+                return "Invalid email address";
+              }
+              return null;
+            },
           ),
           const GapWidget(),
           PrimaryTextField(
-            controller: passwordController,
+            controller: provider.passwordController,
             labelText: "Password",
+            validator: (value) {
+              if(value == null || value.trim().isEmpty) {
+                return "Password is required!";
+              }
+              return null;
+            },
             obsecureText: true,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [LinkButton(text: "Forgot Password?", color: AppColors.accent)],),
+            children: [
+              LinkButton(text: "Forgot Password?", color: AppColors.accent)
+            ],
+          ),
           PrimaryButton(
-            onPressed: () {},
+            onPressed: provider.logIn,
             color: AppColors.accent,
-            text: 'Login',
+            text: (provider.isLoading) ? "..." : 'Login',
             textColor: AppColors.white,
           ),
           const SizedBox(
