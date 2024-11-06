@@ -1,116 +1,122 @@
 import 'package:ecommerce/core/ui.dart';
 import 'package:ecommerce/presentation/screens/auth/providers/login_provider.dart';
+import 'package:ecommerce/presentation/screens/auth/signup_screen.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
 import 'package:ecommerce/presentation/widgets/link_button.dart';
 import 'package:ecommerce/presentation/widgets/primary_button.dart';
-import 'package:ecommerce/presentation/widgets/primary_text_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/primary_text_field.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
-  static const String routeName = "/login";
+  static const String routeName = "login";
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late LoginProvider provider = Provider.of<LoginProvider>(context, listen: false);
-
-  @override
-  void initState() {
-    super.initState();
-    provider = Provider.of<LoginProvider>(context, listen: false);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LoginProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "E-commerce App",
-          style: TextStyles.heading3,
-        ),
-        centerTitle: true,
-        backgroundColor: AppColors.accent,
+          centerTitle: true,
+          elevation: 0,
+          title: const Text("Ecommerce App")
       ),
       body: SafeArea(
-          child: ListView(
-        padding:
-            const EdgeInsets.only(bottom: 16, left: 16, right: 16, top: 70),
-        children: [
-          const Text(
-            "Log in",
-            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-          ),
-          const GapWidget(),
-          (provider.error != "")
-              ? Text(
-                  provider.error,
-                  style: const TextStyle(color: Colors.red),
-                )
-              : const SizedBox(),
-          PrimaryTextField(
-            controller: provider.emailController,
-            labelText: "Email",
-            validator: (value) {
-              if(value == null || value.trim().isEmpty) {
-                return "Email address is required!";
-              }
+        child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
 
-              if(!EmailValidator.validate(value.trim())) {
-                return "Invalid email address";
-              }
-              return null;
-            },
-          ),
-          const GapWidget(),
-          PrimaryTextField(
-            controller: provider.passwordController,
-            labelText: "Password",
-            validator: (value) {
-              if(value == null || value.trim().isEmpty) {
-                return "Password is required!";
-              }
-              return null;
-            },
-            obsecureText: true,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              LinkButton(text: "Forgot Password?", color: AppColors.accent)
-            ],
-          ),
-          PrimaryButton(
-            onPressed: provider.logIn,
-            color: AppColors.accent,
-            text: (provider.isLoading) ? "..." : 'Login',
-            textColor: AppColors.white,
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Don't have an account?",
-                style: TextStyle(fontSize: 16),
+              Text("Log In", style: TextStyles.heading2),
+              const GapWidget(size: -10),
+
+              (provider.error != "") ? Text(
+                provider.error,
+                style: const TextStyle(color: Colors.red),
+              ) : const SizedBox(),
+
+              const GapWidget(size: 5),
+
+              PrimaryTextField(
+                  controller: provider.emailController,
+                  validator: (value) {
+                    if(value == null || value.trim().isEmpty) {
+                      return "Email address is required!";
+                    }
+
+                    if(!EmailValidator.validate(value.trim())) {
+                      return "Invalid email address";
+                    }
+
+                    return null;
+                  },
+                  labelText: "Email Address"
               ),
-              const GapWidget(size: -5),
-              LinkButton(
-                text: "Sign Up",
-                onPressed: () {},
-                color: AppColors.accent,
-              )
-            ],
-          )
-        ],
-      )),
+
+              const GapWidget(),
+
+              PrimaryTextField(
+                  controller: provider.passwordController,
+                  obsecureText: true,
+                  validator: (value) {
+                    if(value == null || value.trim().isEmpty) {
+                      return "Password is required!";
+                    }
+                    return null;
+                  },
+                  labelText: "Password"
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  LinkButton(
+                      onPressed: () {},
+                      text: "Forgot Password?", color: AppColors.accent,
+                  ),
+                ],
+              ),
+
+              const GapWidget(),
+
+              PrimaryButton(
+                  onPressed: provider.logIn,
+                  text: (provider.isLoading) ? "..." : "Log In",
+                  color: AppColors.accent, textColor: AppColors.white,
+              ),
+
+              const GapWidget(),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  Text("Don't have an account?", style: TextStyles.body2),
+
+                  const GapWidget(),
+
+                  LinkButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, SignupScreen.routeName);
+                      },
+                      text: "Sign Up",
+                      color: AppColors.accent
+                  )
+
+                ],
+              ),
+
+            ]
+        ),
+      ),
     );
   }
 }
