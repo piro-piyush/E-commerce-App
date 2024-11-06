@@ -1,4 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:ecommerce/core/ui.dart';
+import 'package:ecommerce/presentation/widgets/gap_widget.dart';
+import 'package:ecommerce/presentation/widgets/link_button.dart';
+import 'package:ecommerce/presentation/widgets/primary_button.dart';
+import 'package:ecommerce/presentation/widgets/primary_text_field.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,61 +22,58 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("E-commerce App"),
+        title: Text(
+          "E-commerce App",
+          style: TextStyles.heading3,
+        ),
         centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.amber,
+        backgroundColor: AppColors.accent,
       ),
-      body: SafeArea(child: ListView(
-        padding: const EdgeInsets.only(bottom: 16, left: 16,right: 16,top: 70),
+      body: SafeArea(
+          child: ListView(
+        padding:
+            const EdgeInsets.only(bottom: 16, left: 16, right: 16, top: 70),
         children: [
-          const Text("Log in", style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold),),
-          const SizedBox(height: 15,),
-          TextFormField(
-            controller: emailController,
-            decoration: const InputDecoration(
-              labelText: "Email",
-              labelStyle: TextStyle(color: Colors.black),
-              // hintText: "Email",
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
-              ),
-            ),cursorColor: Colors.black,
+          const Text(
+            "Log in",
+            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 15,),
-          TextFormField(
+          const GapWidget(),
+          PrimaryTextField(
             controller: passwordController,
-            decoration: const InputDecoration(
-              labelText: "Password",
-              labelStyle: TextStyle(color: Colors.black),
-              // hintText: "Password",
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
-              ),
-            ),
-            cursorColor: Colors.black,
+            labelText: "Email",
           ),
-          const SizedBox(height: 35,),
-          CupertinoButton(child: Container(
-            width: MediaQuery.of(context).size.width,
-              height: 60,
-            decoration: BoxDecoration(color: Colors.amber,borderRadius: BorderRadius.circular(14)),
-              child: const Center(child: Text("Login",style: TextStyle(color: Colors.black,fontWeight: FontWeight.normal,fontSize: 26),))), onPressed: (){}),
-          const SizedBox(height: 15,),
+          const GapWidget(),
+          PrimaryTextField(
+            controller: passwordController,
+            labelText: "Password",
+            obsecureText: true,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [LinkButton(text: "Forgot Password?", color: AppColors.accent)],),
+          PrimaryButton(
+            onPressed: () {},
+            color: AppColors.accent,
+            text: 'Login',
+            textColor: AppColors.white,
+          ),
+          const SizedBox(
+            height: 15,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Dont have an account?",style: TextStyle(fontSize: 16),),
-              const SizedBox(width: 10,),
-              CupertinoButton(
-                padding: EdgeInsets.zero,
-                  child: const Text("Sign Up",style: TextStyle(color: Colors.amber),), onPressed: (){})
+              const Text(
+                "Don't have an account?",
+                style: TextStyle(fontSize: 16),
+              ),
+              const GapWidget(size: -5),
+              LinkButton(
+                text: "Sign Up",
+                onPressed: () {},
+                color: AppColors.accent,
+              )
             ],
           )
         ],
