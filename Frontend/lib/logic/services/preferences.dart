@@ -17,4 +17,9 @@ class Preferences {
     log("Details fetched : $email : $password ");
     return {"email": email, "password": password};
   }
+
+  static Future<void> signOut() async {
+    SharedPreferences instance = await SharedPreferences.getInstance();
+    await instance.clear();
+  }
 }
