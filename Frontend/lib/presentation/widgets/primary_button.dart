@@ -10,7 +10,8 @@ class PrimaryButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.color,
-    this.onPressed, required this.textColor,
+    this.onPressed,
+    required this.textColor,
   });
 
   @override
@@ -25,7 +26,7 @@ class PrimaryButton extends StatelessWidget {
                 color: color, borderRadius: BorderRadius.circular(14)),
             child: Center(
                 child: Text(
-              "Login",
+              text,
               style: TextStyle(
                   color: textColor,
                   fontWeight: FontWeight.normal,
