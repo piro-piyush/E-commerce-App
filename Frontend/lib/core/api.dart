@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-const String BASE_URL = "http://192.168.1.5:8000/api";
-const Map<String, dynamic> DEFAULT_HEADERS = {
+const String baseUrl = "http://192.168.1.5:8000/api";
+const Map<String, dynamic> defaultHeaders = {
   'Content-Type':'application/json'
 };
 
@@ -10,8 +10,8 @@ class Api {
   final Dio _dio = Dio();
 
   Api(){
-    _dio.options.baseUrl = BASE_URL;
-    _dio.options.headers = DEFAULT_HEADERS;
+    _dio.options.baseUrl = baseUrl;
+    _dio.options.headers = defaultHeaders;
     _dio.interceptors.add(PrettyDioLogger(
       requestBody: true,
       requestHeader: true,
