@@ -5,7 +5,7 @@ import 'package:ecommerce/logic/services/preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserCubit extends Cubit<UserState> {
-  UserCubit() : super(UserInitialState()){
+  UserCubit() : super(UserInitialState()) {
     _initialize();
   }
 
@@ -15,14 +15,17 @@ class UserCubit extends Cubit<UserState> {
     final userDetails = await Preferences.fetchUserDetails();
     String? email = userDetails["email"];
     String? password = userDetails["password"];
-    if(email == null || password == null){
+    if (email == null || password == null) {
       emit(UserLoggedOutState());
-    }else {
+    } else {
       signIn(email: email, password: password);
     }
   }
 
-  void _emmitLoggedInState({required UserModel userModel, required String email,required String password })async{
+  void _emmitLoggedInState(
+      {required UserModel userModel,
+      required String email,
+      required String password}) async {
     await Preferences.saveUserDetails(email, password);
     emit(UserLoggedInState(userModel: userModel));
   }
@@ -32,7 +35,8 @@ class UserCubit extends Cubit<UserState> {
     try {
       UserModel userModel =
           await _userRepository.signIn(email: email, password: password);
-      _emmitLoggedInState(userModel: userModel, email: email, password: password);
+      _emmitLoggedInState(
+          userModel: userModel, email: email, password: password);
     } catch (ex) {
       emit(UserErrorState(errorMessage: ex.toString()));
     }
@@ -43,13 +47,14 @@ class UserCubit extends Cubit<UserState> {
     try {
       UserModel userModel =
           await _userRepository.createAccount(email: email, password: password);
-      _emmitLoggedInState(userModel: userModel, email: email, password: password);
+      _emmitLoggedInState(
+          userModel: userModel, email: email, password: password);
     } catch (ex) {
       emit(UserErrorState(errorMessage: ex.toString()));
     }
   }
 
-  void signOut()async{
+  void signOut() async {
     await Preferences.signOut();
     emit(UserLoggedOutState());
   }

@@ -24,7 +24,7 @@ class EcommerceApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        onGenerateRoute:Routes.onGenerateRoutes,
+        onGenerateRoute: Routes.onGenerateRoutes,
         initialRoute: SplashScreen.routeName,
       ),
     );

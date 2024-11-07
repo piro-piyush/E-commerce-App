@@ -4,6 +4,7 @@ import 'package:ecommerce/presentation/screens/auth/providers/signup_provider.da
 import 'package:ecommerce/presentation/screens/auth/signup_screen.dart';
 import 'package:ecommerce/presentation/screens/home/home_screen.dart';
 import 'package:ecommerce/presentation/screens/splash/splash_screen.dart';
+import 'package:ecommerce/presentation/widgets/bottom_nav_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,8 @@ class Routes {
         return CupertinoPageRoute(builder: (context) => const HomeScreen());
       case SplashScreen.routeName:
         return CupertinoPageRoute(builder: (context) => const SplashScreen());
+      case BottomNavBar.routeName:
+        return CupertinoPageRoute(builder: (context) => const BottomNavBar());
       default:
         return null;
     }
