@@ -4,7 +4,6 @@ import 'package:ecommerce/logic/cubits/user_cubit/user_state.dart';
 import 'package:ecommerce/presentation/screens/auth/providers/login_provider.dart';
 import 'package:ecommerce/presentation/screens/auth/signup_screen.dart';
 import 'package:ecommerce/presentation/screens/splash/splash_screen.dart';
-import 'package:ecommerce/presentation/widgets/bottom_nav_bar.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
 import 'package:ecommerce/presentation/widgets/link_button.dart';
 import 'package:ecommerce/presentation/widgets/primary_button.dart';
