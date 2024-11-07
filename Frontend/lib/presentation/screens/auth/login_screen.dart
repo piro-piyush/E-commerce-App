@@ -4,6 +4,7 @@ import 'package:ecommerce/logic/cubits/user_cubit/user_state.dart';
 import 'package:ecommerce/presentation/screens/auth/providers/login_provider.dart';
 import 'package:ecommerce/presentation/screens/auth/signup_screen.dart';
 import 'package:ecommerce/presentation/screens/home/home_screen.dart';
+import 'package:ecommerce/presentation/screens/splash/splash_screen.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
 import 'package:ecommerce/presentation/widgets/link_button.dart';
 import 'package:ecommerce/presentation/widgets/primary_button.dart';
@@ -28,15 +29,17 @@ class _LoginScreenState extends State<LoginScreen> {
     final provider = Provider.of<LoginProvider>(context);
 
     return BlocListener<UserCubit, UserState>(
-      listener: (context, state){
-        if(state is UserLoggedInState){
-          Navigator.popUntil(context, (route) =>route.isFirst);
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      listener: (context, state) {
+        if (state is UserLoggedInState) {
+          Navigator.popUntil(context, (route) => route.isFirst);
+          Navigator.pushReplacementNamed(context, SplashScreen.routeName);
         }
       },
       child: Scaffold(
         appBar: AppBar(
-            centerTitle: true, elevation: 0, title: const Text("Ecommerce App")),
+            centerTitle: true,
+            elevation: 0,
+            title: const Text("Ecommerce App")),
         body: SafeArea(
           child: Form(
             key: provider.formKey,
@@ -56,11 +59,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (value == null || value.trim().isEmpty) {
                       return "Email address is required!";
                     }
-      
+
                     if (!EmailValidator.validate(value.trim())) {
                       return "Invalid email address";
                     }
-      
+
                     return null;
                   },
                   labelText: "Email Address"),

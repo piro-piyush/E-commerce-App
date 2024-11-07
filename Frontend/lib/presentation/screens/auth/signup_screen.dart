@@ -72,7 +72,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   if (value == null || value.trim().isEmpty) {
                     return "Confirm your password !";
                   }
-                  if(value.trim() != provider.passwordController.text.trim()){
+                  if (value.trim() != provider.passwordController.text.trim()) {
                     return "Passwords do not match";
                   }
                   return null;
@@ -93,8 +93,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 const GapWidget(),
                 LinkButton(
                     onPressed: () {
-                      Navigator.popUntil(context, (route) =>route.isFirst);
-                      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                      Navigator.pushReplacementNamed(
+                          context, LoginScreen.routeName);
                     },
                     text: "Log in",
                     color: AppColors.accent)

@@ -1,14 +1,15 @@
 import 'dart:developer';
-
 import 'package:ecommerce/logic/cubits/user_cubit/user_cubit.dart';
-import 'package:ecommerce/presentation/screens/auth/login_screen.dart';
+import 'package:ecommerce/presentation/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   Bloc.observer = MyBlocObserver();
   runApp(const EcommerceApp());
 }
@@ -25,7 +26,7 @@ class EcommerceApp extends StatelessWidget {
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute:Routes.onGenerateRoutes,
-        initialRoute: LoginScreen.routeName,
+        initialRoute: SplashScreen.routeName,
       ),
     );
   }
