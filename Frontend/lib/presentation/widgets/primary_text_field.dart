@@ -39,6 +39,7 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
     return TextFormField(
       controller: widget.controller,
       obscureText: myObsecure,
+      validator: widget.validator,
       decoration: InputDecoration(
         labelText: widget.labelText,
         labelStyle: const TextStyle(color: Colors.black),
