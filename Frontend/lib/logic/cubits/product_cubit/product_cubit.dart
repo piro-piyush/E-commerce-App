@@ -1,4 +1,3 @@
-import 'package:ecommerce/data/models/product/product_model.dart';
 import 'package:ecommerce/data/repositories/product_repository.dart';
 import 'package:ecommerce/logic/cubits/product_cubit/product_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
