@@ -31,7 +31,7 @@ class _ProductsGridWidgetState extends State<ProductsGridWidget> {
             itemBuilder: (context, index) {
               final product = state.products[index];
               return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
                   // width: 115,
                   // height: 80,
                   decoration: BoxDecoration(
@@ -51,7 +51,6 @@ class _ProductsGridWidgetState extends State<ProductsGridWidget> {
                       CachedNetworkImage(
                         imageUrl:
                         product.images![0],
-                        height: 90,
                         width: 120,
                         fit: BoxFit.contain,
                       ),
@@ -69,10 +68,10 @@ class _ProductsGridWidgetState extends State<ProductsGridWidget> {
                                 width: 200,
                                 child: Text(
                                   product.title!,
-                                  maxLines: 3,
+                                  maxLines: 2,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 12,
+                                      fontSize: 18,
                                       letterSpacing: 0.1,
                                       wordSpacing: 0.1),
                                   overflow: TextOverflow.ellipsis,
