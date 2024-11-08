@@ -24,16 +24,16 @@ class _ProductsGridWidgetState extends State<ProductsGridWidget> {
               crossAxisSpacing: 5,
               // Space between items horizontally
               mainAxisSpacing: 16,
-              childAspectRatio: 2.6,
+              childAspectRatio: 2.2,
             ),
             itemCount:state.products.length,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             itemBuilder: (context, index) {
               final product = state.products[index];
               return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                  width: 115,
-                  height: 60,
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  // width: 115,
+                  // height: 80,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15),

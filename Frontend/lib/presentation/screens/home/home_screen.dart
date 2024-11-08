@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "Categories",
+                      "Categories",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -47,9 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const GapWidget(),
-             SizedBox(
-              height: MediaQuery.of(context).size.height*0.10,
-                child:const CategoryScrollableList()),
+            SizedBox(
+                height: MediaQuery.of(context).size.height * 0.10,
+                child: const CategoryScrollableList()),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
@@ -67,9 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-                child:  ProductsGridWidget())
+                flex: 1, fit: FlexFit.tight, child: ProductsGridWidget())
           ],
         ),
       ),
