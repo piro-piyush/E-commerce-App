@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/logic/cubits/product_cubit/product_cubit.dart';
 import 'package:ecommerce/logic/cubits/product_cubit/product_state.dart';
+import 'package:ecommerce/logic/services/formatter.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -82,7 +83,7 @@ class _ProductsGridWidgetState extends State<ProductsGridWidget> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                    Text(
-                                    "₹ ${product.price!}",
+                                    "₹ ${Formatter.formatPrice(product.price!)}",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
