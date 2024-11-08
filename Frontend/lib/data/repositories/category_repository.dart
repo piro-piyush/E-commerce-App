@@ -1,44 +1,23 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:ecommerce/core/api.dart';
-import 'package:ecommerce/data/models/users/user_model.dart';
+import 'package:ecommerce/data/models/category/category_model..dart';
 
 class CategoryRepository {
   final _api = Api();
 
-  Future<UserModel> createAccount(
-      {required String email, required String password}) async {
+  Future<List<CategoryModel>> fetchAllCategories() async {
     try {
-      Response response = await _api.sendRequest.post("/user/createAccount",
-          data: jsonEncode({"email": email, "password": password})
-      );
+      Response response = await _api.sendRequest.get("/category",) ;
       ApiResponse apiResponse = ApiResponse.fromResponse(response);
       if(!apiResponse.success){
         throw apiResponse.message.toString();
       }
 
-      //convert raw data to model
-      return UserModel.fromJson(apiResponse.data);
+      return (apiResponse.data as List<dynamic>).map((json) => CategoryModel.fromJson(json)).toList();
     } catch (ex) {
       rethrow;
     }
   }
 
-  Future<UserModel> signIn(
-      {required String email, required String password}) async {
-    try {
-      Response response = await _api.sendRequest.post("/user/signIn",
-          data: jsonEncode({"email": email, "password": password})
-      );
-      ApiResponse apiResponse = ApiResponse.fromResponse(response);
-      if(!apiResponse.success){
-        throw apiResponse.message.toString();
-      }
-
-      //convert raw data to model
-      return UserModel.fromJson(apiResponse.data);
-    } catch (ex) {
-      rethrow;
-    }
-  }
 }
