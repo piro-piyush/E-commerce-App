@@ -91,7 +91,7 @@ class _ProductsGridWidgetState extends State<ProductsGridWidget> {
                                   InkWell(
                                     onTap: (){},
                                     child: const Icon(
-                                      Icons.shopping_cart,
+                                      Icons.shopping_cart_outlined,
                                       size: 24,
                                     ),
                                   )
