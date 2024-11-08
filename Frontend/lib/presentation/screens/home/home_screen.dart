@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("E-commerce"),
         actions: [
-          Icon(Icons.shopping_cart, color: AppColors.text),
+          Icon(Icons.shopping_cart_outlined, color: AppColors.text),
           const GapWidget()
         ],
       ),
