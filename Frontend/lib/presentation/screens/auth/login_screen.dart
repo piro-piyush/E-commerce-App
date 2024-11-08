@@ -69,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if(val != ""){
                       focusNode.requestFocus();
                     }
+                    return null;
                   },
                   labelText: "Email Address"),
               const GapWidget(),
