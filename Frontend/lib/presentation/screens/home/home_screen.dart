@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const GapWidget()
         ],
       ),
-      backgroundColor: AppColors.accent,
+      // backgroundColor: AppColors.accent,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
