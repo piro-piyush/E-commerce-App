@@ -23,6 +23,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LoginProvider>(context);
@@ -58,25 +59,37 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (value == null || value.trim().isEmpty) {
                       return "Email address is required!";
                     }
-
                     if (!EmailValidator.validate(value.trim())) {
                       return "Invalid email address";
                     }
 
                     return null;
                   },
+                  onSubmitted: (val){
+                    if(val != ""){
+                      focusNode.requestFocus();
+                    }
+                  },
                   labelText: "Email Address"),
               const GapWidget(),
               PrimaryTextField(
                   controller: provider.passwordController,
                   obsecureText: true,
+                  focusNode: focusNode,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return "Password is required!";
                     }
                     return null;
                   },
-                  labelText: "Password"),
+                  labelText: "Password",
+                onSubmitted: (val){
+                  if(val != ""){
+                    provider.logIn;
+                  }
+                  return null;
+                },
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

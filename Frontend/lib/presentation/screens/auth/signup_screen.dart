@@ -19,6 +19,9 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  FocusNode focusNodePassword = FocusNode();
+  FocusNode focusNodeCPassword = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<SignupProvider>(context);
@@ -52,6 +55,12 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   return null;
                 },
+                onSubmitted: (val) {
+                  if (val != "") {
+                    focusNodePassword.requestFocus();
+                  }
+                  return null;
+                },
                 labelText: "Email Address"),
             const GapWidget(),
             PrimaryTextField(
@@ -63,6 +72,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   }
                   return null;
                 },
+                onSubmitted: (val) {
+                  if (val != "") {
+                    focusNodeCPassword.requestFocus();
+                  }
+                  return null;
+                },
+                focusNode: focusNodePassword,
                 labelText: "Password"),
             const GapWidget(),
             PrimaryTextField(
@@ -77,6 +93,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   }
                   return null;
                 },
+                onSubmitted: (val) {
+                  if (val != "") {
+                    provider.createAccount;
+                  }
+                  return null;
+                },
+                focusNode: focusNodeCPassword,
                 labelText: "Confirm Password"),
             const GapWidget(),
             PrimaryButton(
