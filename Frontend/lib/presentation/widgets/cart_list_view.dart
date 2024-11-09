@@ -53,7 +53,7 @@ class CartListView extends StatelessWidget {
               minusBtn: Icon(Icons.remove_circle),
               plusBtn: Icon(Icons.add_circle)
             ),
-            showMessageLimit: false,
+            // showMessageLimit: false,
             onQtyChanged: (value) {
               if(value == item.quantity) return;
               BlocProvider.of<CartCubit>(context).addToCart(item.product!, value as int);
