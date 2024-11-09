@@ -48,7 +48,7 @@ const CartController = {
     },
 
     removeFromCart: async function (req, res) {
-        try {
+        try {   
             const { user, product } = req.body;
             const updatedCart = await CartModel.findOneAndUpdate(
                 { user: user },
@@ -81,7 +81,7 @@ const CartController = {
             }
             return res.json({
                 success: true,
-                data: foundCart,
+                data: foundCart.items,
                 message: "Cart Found !!",
             });
         } catch (ex) {

@@ -1,21 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/core/ui.dart';
 import 'package:ecommerce/logic/cubits/cart_cubit/cart_cubit.dart';
 import 'package:ecommerce/logic/cubits/cart_cubit/cart_state.dart';
 import 'package:ecommerce/logic/services/calculation.dart';
 import 'package:ecommerce/logic/services/formatter.dart';
-import 'package:ecommerce/presentation/widgets/gap_widget.dart';
-import 'package:ecommerce/presentation/widgets/link_button.dart';
-import 'package:ecommerce/presentation/widgets/primary_button.dart';
+import 'package:ecommerce/presentation/widgets/cart_list_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:input_quantity/input_quantity.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class CartScreen extends StatefulWidget {
-  static const String routeName = "/cartScreen";
-
   const CartScreen({super.key});
+
+  static const routeName = "cart";
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -26,173 +22,72 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cart"),
-        centerTitle: true,
+        title: const Text("Cart"),
       ),
       body: SafeArea(
         child: BlocBuilder<CartCubit, CartState>(
-          builder: (context, state) {
-            if (state is CartLoadingState && state.items.isEmpty) {
-              return Skeletonizer(
-                enabled: true,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+            builder: (context, state) {
+
+              if(state is CartLoadingState && state.items.isEmpty) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              if(state is CartErrorState && state.items.isEmpty) {
+                return Center(
+                  child: Text(state.errorMessage),
+                );
+              }
+
+              if(state is CartLoadedState && state.items.isEmpty) {
+                return const Center(
+                    child: Text("Cart items will show up here..")
+                );
+              }
+
+              return Column(
+                children: [
+                  Expanded(
+                      child: CartListView(items: state.items)
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: LinkButton(
-                              text: "Clear cart", color: AppColors.text),
-                        )
-                      ],
-                    ),
-                    Divider(
-                      height: 0,
-                      thickness: 4,
-                    ),
-                    Expanded(
-                        child: ListView.builder(
-                            itemCount: 15,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                  title: Text("Product Name"),
-                                  subtitle: Text("Price X Qty  = Total"),
-                                  trailing: InputQty(
-                                    initVal: 1,
-                                    maxVal: 99,
-                                    minVal: 1,
-                                    qtyFormProps:
-                                        QtyFormProps(enableTyping: true),
-                                    decoration: QtyDecorationProps(
-                                      isBordered: false,
-                                      minusBtn: Icon(
-                                        Icons.remove_circle_outline,
-                                        color: AppColors.accent,
-                                      ),
-                                      plusBtn: Icon(
-                                          Icons.add_circle_outline_sharp,
-                                          color: AppColors.accent),
-                                    ),
-                                    validator: (val) {
-                                      return null;
-                                    },
-                                  ));
-                            })),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Column(
+
+                        Flexible(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "5 Items",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              Text(
-                                "Total : ${Formatter.formatPrice(99892)}",
-                                style: TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.bold),
-                              ),
+
+                              Text("${state.items.length} items", style: TextStyles.body1.copyWith(fontWeight: FontWeight.bold),),
+                              Text("Total: ${Formatter.formatPrice(Calculations.cartTotal(state.items))}", style: TextStyles.heading3,),
+
                             ],
                           ),
-                          GapWidget(),
-                          Flexible(
-                              child: PrimaryButton(
-                                  text: "Place Order",
-                                  color: AppColors.accent,
-                                  textColor: AppColors.white))
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
-            }
-            if (state is CartErrorState && state.items.isEmpty) {
-              return Center(
-                child: Text(state.errorMessage),
-              );
-            }
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child:
-                          LinkButton(text: "Clear cart", color: AppColors.text),
-                    )
-                  ],
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 4,
-                ),
-                Expanded(
-                    child: ListView.builder(
-                        itemCount: 15,
-                        itemBuilder: (context, index) {
-                          final item = state.items[index];
-                          return ListTile(
-                            leading: CachedNetworkImage(imageUrl: item.product!.images![0],fit: BoxFit.cover,),
-                              title: Text(item.product!.title!),
-                              subtitle: Text(
-                                  "${Formatter.formatPrice(item.product!.price!)} X ${item.quantity}  = ${Formatter.formatPrice((item.product!.price)! * (item.quantity!))}"),
-                              trailing: InputQty(
-                                initVal: item.quantity!,
-                                maxVal: 99,
-                                minVal: 1,
-                                qtyFormProps: QtyFormProps(enableTyping: true),
-                                decoration: QtyDecorationProps(
-                                  isBordered: false,
-                                  minusBtn: Icon(
-                                    Icons.remove_circle_outline,
-                                    color: AppColors.accent,
-                                  ),
-                                  plusBtn: Icon(Icons.add_circle_outline_sharp,
-                                      color: AppColors.accent),
-                                ),
-                                validator: (val) {
-                                  return null;
-                                },
-                              ));
-                        })),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${state.items.length} Items",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.normal),
+                        ),
+
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          child: CupertinoButton(
+                            onPressed: () {
+                              // Navigator.pushNamed(context, OrderDetailScreen.routeName);
+                            },
+                            padding: EdgeInsets.all(MediaQuery.of(context).size.width / 22),
+                            color: AppColors.accent,
+                            child: const Text("Place Order"),
                           ),
-                          Text(
-                            "Total : ${Formatter.formatPrice(Calculations.cartTotal(state.items))}",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      GapWidget(),
-                      Flexible(
-                          child: PrimaryButton(
-                              text: "Place Order",
-                              color: AppColors.accent,
-                              textColor: AppColors.white))
-                    ],
+                        ),
+
+                      ],
+                    ),
                   ),
-                )
-              ],
-            );
-          },
+                ],
+              );
+            }
         ),
       ),
     );
