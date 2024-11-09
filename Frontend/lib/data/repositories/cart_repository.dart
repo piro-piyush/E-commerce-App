@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:dio/dio.dart';
 import 'package:ecommerce/core/api.dart';
 import 'package:ecommerce/data/models/cart/cart_item_model.dart';
-import 'package:ecommerce/data/models/category/category_model..dart';
 
 class CartRepository {
   final _api = Api();
