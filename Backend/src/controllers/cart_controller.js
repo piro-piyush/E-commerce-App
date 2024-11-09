@@ -50,7 +50,7 @@ const CartController = {
     getCartByUserID: async function (req, res) {
         try {
             const user = req.params.user;
-            const foundCart = await CartModel.findOne({ user: user });
+            const foundCart = await CartModel.findOne({ user: user }).populate("items.product");
             if (!foundCart) {
                 return res.json({ success: true, data: [], message: "No cart exist!!" });
             }

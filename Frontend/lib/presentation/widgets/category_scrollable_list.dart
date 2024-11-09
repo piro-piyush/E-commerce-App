@@ -15,7 +15,8 @@ class CategoryScrollableList extends StatefulWidget {
 class _CategoryScrollableListState extends State<CategoryScrollableList> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.10,
       child: BlocBuilder<CategoryCubit, CategoryState>(
         builder: (context, state) {
           if (state is CategoryLoadingState && state.categories.isEmpty) {
@@ -26,44 +27,43 @@ class _CategoryScrollableListState extends State<CategoryScrollableList> {
           if (state is CategoryErrorState && state.categories.isEmpty) {
             return Center(child: Text(state.errorMessage.toString()));
           }
-          return Skeletonizer(
-            enabled: state.categories.isEmpty,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: state.categories.length,
-              itemBuilder: (BuildContext context, int index) {
-                final category = state.categories[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Column(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Colors.grey.shade200,
-                          child: CachedNetworkImage(
-                            imageUrl: category.image!,
-                            placeholder: (context, url) => const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
-                            fit: BoxFit.cover,
-                          ),
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: state.categories.length,
+            itemBuilder: (BuildContext context, int index) {
+              final category = state.categories[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundColor: Colors.grey.shade200,
+                        child: CachedNetworkImage(
+                          imageUrl: category.image!,
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      Text(
-                        category.title!,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      category.title!,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              );
+            },
           );
         },
       ),
