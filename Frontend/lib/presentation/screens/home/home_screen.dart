@@ -1,8 +1,10 @@
 import 'package:ecommerce/core/ui.dart';
+import 'package:ecommerce/presentation/screens/cart/cart_screen.dart';
 import 'package:ecommerce/presentation/widgets/category_scrollable_list.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
 import 'package:ecommerce/presentation/widgets/link_button.dart';
 import 'package:ecommerce/presentation/widgets/products_grid_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("E-commerce"),
         actions: [
-          Icon(Icons.shopping_cart_outlined, color: AppColors.text),
+          CupertinoButton(onPressed:(){
+            Navigator.pushNamed(context, CartScreen.routeName);
+          },child: Icon(Icons.shopping_cart_outlined, color: AppColors.text)),
           const GapWidget()
         ],
       ),
