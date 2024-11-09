@@ -38,7 +38,7 @@ class CartListView extends StatelessWidget {
 
               LinkButton(
                 onPressed: () {
-                  // BlocProvider.of<CartCubit>(context).removeFromCart(item.product!);
+                  BlocProvider.of<CartCubit>(context).removeFromCart(item.product!);
                 },
                 text: "Delete",
                 color: Colors.red,
@@ -49,14 +49,9 @@ class CartListView extends StatelessWidget {
             maxVal: 99,
             initVal: item.quantity!,
             minVal: 1,
-            decoration: QtyDecorationProps(
-              minusBtn: Icon(Icons.remove_circle),
-              plusBtn: Icon(Icons.add_circle)
-            ),
-            // showMessageLimit: false,
             onQtyChanged: (value) {
               if(value == item.quantity) return;
-              BlocProvider.of<CartCubit>(context).addToCart(item.product!, value as int);
+              BlocProvider.of<CartCubit>(context).addToCart(item.product!, int.parse(value.toStringAsFixed(0)));
             },
           ),
         );

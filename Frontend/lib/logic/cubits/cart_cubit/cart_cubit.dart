@@ -10,56 +10,104 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartCubit extends Cubit<CartState> {
   final UserCubit _userCubit;
-  StreamSubscription? _streamSubscription;
-  CartCubit(this._userCubit) : super(CartInitialState()) {
-    //Initial Value
+  StreamSubscription? _userSubscription;
+
+  CartCubit(this._userCubit) : super( CartInitialState() ) {
+    // initial Value
     _handleUserState(_userCubit.state);
 
-    //Listening to User Cubit (for future update)
-    _streamSubscription = _userCubit.stream.listen(_handleUserState);
+    // Listening to User Cubit (for future updates)
+    _userSubscription = _userCubit.stream.listen(_handleUserState);
   }
 
-  void _handleUserState(UserState userState){
-    if (userState is UserLoggedInState) {
+  void _handleUserState(UserState userState) {
+    if(userState is UserLoggedInState) {
       _initialize(userState.userModel.sId!);
-    } else if (userState is UserLoggedOutState) {
-      emit(CartInitialState());
+    }
+    else if(userState is UserLoggedOutState) {
+      emit( CartInitialState() );
     }
   }
 
   final _cartRepository = CartRepository();
 
-  Future<void> _initialize(String userId) async {
-    emit(CartLoadingState(state.items));
+  void sortAndLoad(List<CartItemModel> items) {
+    items.sort((a, b) => b.product!.title!.compareTo(a.product!.title!));
+    emit( CartLoadedState(items) );
+  }
+
+  void _initialize(String userId)  async {
+    emit( CartLoadingState(state.items) );
     try {
       final items = await _cartRepository.fetchCartByUserId(userId);
-      emit(CartLoadedState(items));
-    } catch (ex) {
-      emit(CartErrorState(ex.toString(), state.items));
+      sortAndLoad(items);
+    }
+    catch(ex) {
+      emit( CartErrorState(ex.toString(), state.items) );
     }
   }
 
-  void addToCart(ProductModel productModel,int qty,)async{
-    emit(CartLoadingState(state.items));
-    try{
-      if(_userCubit.state is UserLoggedInState){
+  void addToCart(ProductModel product, int quantity) async {
+    emit( CartLoadingState(state.items) );
+    try {
+      if(_userCubit.state is UserLoggedInState) {
         UserLoggedInState userState = _userCubit.state as UserLoggedInState;
+
         CartItemModel newItem = CartItemModel(
-          product: productModel,
-          quantity: qty,
+            product: product,
+            quantity: quantity
         );
-        final items = await _cartRepository.addToCart(userState.userModel.sId!,newItem);
-        emit(CartLoadedState(items));
-      }else{
-        throw "An error occurred while adding the item";
+
+        final items = await _cartRepository.addToCart(userState.userModel.sId!,newItem, );
+        sortAndLoad(items);
       }
-    }catch(ex){
-      emit(CartErrorState(ex.toString(), state.items));
+      else {
+        throw "An error occured while adding the item!";
+      }
+    }
+    catch(ex) {
+      emit( CartErrorState(ex.toString(), state.items) );
     }
   }
+
+  void removeFromCart(ProductModel product) async {
+    emit( CartLoadingState(state.items) );
+    try {
+      if(_userCubit.state is UserLoggedInState) {
+        UserLoggedInState userState = _userCubit.state as UserLoggedInState;
+
+        final items = await _cartRepository.removeFromCart(product.sId!, userState.userModel.sId!);
+        sortAndLoad(items);
+      }
+      else {
+        throw "An error occured while removing the item!";
+      }
+    }
+    catch(ex) {
+      emit( CartErrorState(ex.toString(), state.items) );
+    }
+  }
+
+  bool cartContains(ProductModel product) {
+    if(state.items.isNotEmpty) {
+      final foundItem = state.items.where((item) => item.product!.sId! == product.sId!).toList();
+      if(foundItem.isNotEmpty) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  void clearCart() {
+    emit( CartLoadedState([]) );
+  }
+
   @override
   Future<void> close() {
-    _streamSubscription?.cancel();
+    _userSubscription?.cancel();
     return super.close();
   }
 }

@@ -35,7 +35,7 @@ class Routes {
       case ProductDetailsScreen.routeName:
         return CupertinoPageRoute(
             builder: (context) => ProductDetailsScreen(
-                  product: settings.arguments as ProductModel,
+                  productModel: settings.arguments as ProductModel,
                 ));
       default:
         return null;

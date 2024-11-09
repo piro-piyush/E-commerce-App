@@ -1,17 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/core/ui.dart';
 import 'package:ecommerce/data/models/product/product_model.dart';
+import 'package:ecommerce/logic/cubits/cart_cubit/cart_cubit.dart';
+import 'package:ecommerce/logic/cubits/cart_cubit/cart_state.dart';
 import 'package:ecommerce/logic/services/formatter.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:ecommerce/presentation/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  final ProductModel product;
-  static const routeName = "/productDetailScreen";
+  final ProductModel productModel;
+  const ProductDetailsScreen({super.key, required this.productModel});
 
-  const ProductDetailsScreen({super.key, required this.product});
+  static const routeName = "product_details";
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -22,103 +25,67 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.product.title!,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
+        title: Text("${widget.productModel.title}"),
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: SafeArea(
+        child: ListView(
           children: [
+
             SizedBox(
-                height: MediaQuery.of(context).size.width,
-                width: MediaQuery.of(context).size.width,
-                child: CarouselSlider.builder(
-                  itemCount: widget.product.images!.length,
-                  slideBuilder: (index) {
-                    final image = widget.product.images![index];
-                    return CachedNetworkImage(
-                      imageUrl: image,
-                      fit: BoxFit.contain,
-                    );
-                  },
-                )),
-            GapWidget(),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.product.title!,
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-                  ),
-                  GapWidget(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        Formatter.formatPrice(
-                          widget.product.price!,
-                        ),
-                        style: TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.bold),
-                      ),
-                      CupertinoButton(
-                          child: Container(
-                              height: 55,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                  color: AppColors.accent,
-                                  borderRadius: BorderRadius.circular(14)),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8.0, horizontal: 14),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Add to Cart",
-                                        style: TextStyle(
-                                            color: AppColors.white,
-                                            fontSize: 26),
-                                      ),
-                                      Icon(
-                                        Icons.shopping_cart_outlined,
-                                        color: AppColors.white,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )),
-                          onPressed: () {})
-                    ],
-                  ),
-                  GapWidget(
-                    size: -5,
-                  ),
-                  Text(
-                    "Description",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-                  ),
-                  GapWidget(
-                    size: -5,
-                  ),
-                  Text(
-                    widget.product.description!,
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: AppColors.textLight),
-                  ),
-                ],
+              height: MediaQuery.of(context).size.width,
+              child: CarouselSlider.builder(
+                itemCount: widget.productModel.images?.length ?? 0,
+                slideBuilder: (index) {
+
+                  String url = widget.productModel.images![index];
+
+                  return CachedNetworkImage(
+                    imageUrl: url,
+                    fit: BoxFit.contain,
+                  );
+
+                },
               ),
             ),
+
+            const GapWidget(),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("${widget.productModel.title}", style: TextStyles.heading3,),
+                  Text(Formatter.formatPrice(widget.productModel.price!), style: TextStyles.heading2,),
+
+                  const GapWidget(size: 10),
+
+                  BlocBuilder<CartCubit, CartState>(
+                      builder: (context, state) {
+                        bool isInCart = BlocProvider.of<CartCubit>(context).cartContains(widget.productModel);
+
+                        return PrimaryButton(
+                            onPressed: () {
+                              if(isInCart) {
+                                return;
+                              }
+
+                              BlocProvider.of<CartCubit>(context).addToCart(widget.productModel, 1);
+                            },
+                            color: (isInCart) ? AppColors.textLight : AppColors.accent,
+                            text: (isInCart) ? "Product added to cart" : "Add to Cart", textColor: AppColors.white,
+                        );
+                      }
+                  ),
+
+                  const GapWidget(size: 10),
+
+                  Text("Description", style: TextStyles.body2.copyWith(fontWeight: FontWeight.bold),),
+                  Text("${widget.productModel.description}", style: TextStyles.body1,),
+                ],
+              ),
+            )
+
           ],
         ),
       ),
