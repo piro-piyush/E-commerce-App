@@ -94,6 +94,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       const CircularProgressIndicator(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
+                onTap: (){
+                  Navigator.pushNamed(context, ProductsByCategoryScreen.routeName,arguments: category);
+                },
                 title: Text(
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
