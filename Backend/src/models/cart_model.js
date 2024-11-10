@@ -11,7 +11,7 @@ const cartSchema = new Schema({
     items: { type: [cartItemSchema], default: [] },
     updatedOn: { type: Date },
     createdOn: { type: Date }
-});
+}); 
 
 cartSchema.pre('save', function (next) {
     this.updatedOn = new Date();

@@ -22,19 +22,19 @@ const CartController = {
                 });
             }
             //If cart already exists
-            const deletedItem = await CartModel.findOneAndUpdate({
-                user: user,
-                "items.product": product,
-            }, { $pull: { items: { product: product } } }, 
-            {new: true}
+            const deletedItem = await CartModel.findOneAndUpdate(
+                {
+                    user: user,
+                    "items.product": product,
+                },
+                { $pull: { items: { product: product } } },
+                { new: true }
             );
 
             // If cart does exist
             const updatedCart = await CartModel.findOneAndUpdate(
                 { user: user },
-                {
-                    $push: { items: { product: product, quantity: quantity } },
-                },
+                { $push: { items: { product: product, quantity: quantity } } },
                 { new: true }
             ).populate("items.product");
             return res.json({
@@ -48,7 +48,7 @@ const CartController = {
     },
 
     removeFromCart: async function (req, res) {
-        try {   
+        try {
             const { user, product } = req.body;
             const updatedCart = await CartModel.findOneAndUpdate(
                 { user: user },
