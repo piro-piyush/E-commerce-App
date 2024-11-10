@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/logic/cubits/products_by_category_cubit/products_by_category_cubit.dart';
 import 'package:ecommerce/logic/cubits/products_by_category_cubit/products_by_category_state.dart';
 import 'package:flutter/material.dart';
