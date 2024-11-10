@@ -24,8 +24,8 @@ class CartRepository {
     }
   }
 
-  Future<List<CartItemModel>> addToCart(String userId,
-      CartItemModel cartItemModel) async {
+  Future<List<CartItemModel>> addToCart(
+      CartItemModel cartItemModel, String userId) async {
     try {
       Map<String, dynamic> data = cartItemModel.toJson();
       data["user"] = userId;
@@ -47,13 +47,12 @@ class CartRepository {
     }
   }
 
-  Future<List<CartItemModel>> removeFromCart(String userId,
-      String product,) async {
+  Future<List<CartItemModel>> removeFromCart(
+    String userId,
+    String product,
+  ) async {
     try {
-      Map<String, dynamic> data = {
-        "product": product,
-        "user": userId
-      };
+      Map<String, dynamic> data = {"product": product, "user": userId};
 
       Response response = await _api.sendRequest.delete(
         "/cart/removeFromCart",
@@ -71,5 +70,4 @@ class CartRepository {
       rethrow;
     }
   }
-
 }

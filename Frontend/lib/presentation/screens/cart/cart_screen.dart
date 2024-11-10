@@ -4,6 +4,7 @@ import 'package:ecommerce/logic/cubits/cart_cubit/cart_state.dart';
 import 'package:ecommerce/logic/services/calculation.dart';
 import 'package:ecommerce/logic/services/formatter.dart';
 import 'package:ecommerce/presentation/widgets/cart_list_view.dart';
+import 'package:ecommerce/presentation/widgets/link_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,6 +45,20 @@ class _CartScreenState extends State<CartScreen> {
 
           return Column(
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        BlocProvider.of<CartCubit>(context).clearCart();
+                      },
+                      icon: Icon(
+                        Icons.delete_rounded,
+                        color: AppColors.accent,
+                      ))
+                ],
+              ),
+              Divider(),
               Expanded(child: CartListView(items: state.items)),
               Padding(
                 padding: const EdgeInsets.all(16),

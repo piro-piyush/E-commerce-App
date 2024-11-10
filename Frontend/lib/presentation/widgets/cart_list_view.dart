@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/data/models/cart/cart_item_model.dart';
+import 'package:ecommerce/presentation/screens/product/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:input_quantity/input_quantity.dart';
@@ -13,7 +14,11 @@ class CartListView extends StatelessWidget {
   final bool shrinkWrap;
   final bool noScroll;
 
-  const CartListView({super.key, required this.items, this.shrinkWrap = false, this.noScroll = false});
+  const CartListView(
+      {super.key,
+      required this.items,
+      this.shrinkWrap = false,
+      this.noScroll = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,6 @@ class CartListView extends StatelessWidget {
       shrinkWrap: shrinkWrap,
       itemCount: items.length,
       itemBuilder: (context, index) {
-
         final item = items[index];
 
         return ListTile(
@@ -30,15 +34,20 @@ class CartListView extends StatelessWidget {
             width: 50,
             imageUrl: item.product!.images![0],
           ),
+          onTap: () {
+            Navigator.pushNamed(context, ProductDetailsScreen.routeName,
+                arguments: item.product);
+          },
           title: Text("${item.product?.title}"),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${Formatter.formatPrice(item.product!.price!)} x ${item.quantity} = ${Formatter.formatPrice(item.product!.price! * item.quantity!)}"),
-
+              Text(
+                  "${Formatter.formatPrice(item.product!.price!)} x ${item.quantity} = ${Formatter.formatPrice(item.product!.price! * item.quantity!)}"),
               LinkButton(
                 onPressed: () {
-                  BlocProvider.of<CartCubit>(context).removeFromCart(item.product!);
+                  BlocProvider.of<CartCubit>(context)
+                      .removeFromCart(item.product!);
                 },
                 text: "Delete",
                 color: Colors.red,
@@ -49,13 +58,14 @@ class CartListView extends StatelessWidget {
             maxVal: 99,
             initVal: item.quantity!,
             minVal: 1,
+            decoration: QtyDecorationProps(isBordered: false),
             onQtyChanged: (value) {
-              if(value == item.quantity) return;
-              BlocProvider.of<CartCubit>(context).addToCart(item.product!, int.parse(value.toStringAsFixed(0)));
+              if (value == item.quantity) return;
+              BlocProvider.of<CartCubit>(context)
+                  .addToCart(item.product!, value.toInt());
             },
           ),
         );
-
       },
     );
   }

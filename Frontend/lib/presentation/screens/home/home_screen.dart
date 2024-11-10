@@ -1,4 +1,6 @@
 import 'package:ecommerce/core/ui.dart';
+import 'package:ecommerce/logic/cubits/cart_cubit/cart_cubit.dart';
+import 'package:ecommerce/logic/cubits/cart_cubit/cart_state.dart';
 import 'package:ecommerce/presentation/screens/cart/cart_screen.dart';
 import 'package:ecommerce/presentation/widgets/category_scrollable_list.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
@@ -6,6 +8,7 @@ import 'package:ecommerce/presentation/widgets/link_button.dart';
 import 'package:ecommerce/presentation/widgets/products_grid_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,9 +26,19 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("E-commerce"),
         actions: [
-          CupertinoButton(onPressed:(){
-            Navigator.pushNamed(context, CartScreen.routeName);
-          },child: Icon(Icons.shopping_cart_outlined, color: AppColors.text)),
+          CupertinoButton(
+            onPressed: () {
+              Navigator.pushNamed(context, CartScreen.routeName);
+            },
+            child: BlocBuilder<CartCubit, CartState>(builder: (context, state) {
+              return state.items.isEmpty
+                  ? Icon(Icons.shopping_cart_outlined, color: AppColors.text)
+                  : Badge(
+                      label: Text(state.items.length.toString()),
+                      isLabelVisible: state is CartLoadingState ? false : true,
+                      child: Icon(Icons.shopping_cart));
+            }),
+          ),
           const GapWidget()
         ],
       ),

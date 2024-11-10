@@ -12,6 +12,7 @@ import 'package:flutter_carousel_slider/carousel_slider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final ProductModel productModel;
+
   const ProductDetailsScreen({super.key, required this.productModel});
 
   static const routeName = "product_details";
@@ -30,62 +31,68 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: SafeArea(
         child: ListView(
           children: [
-
             SizedBox(
               height: MediaQuery.of(context).size.width,
               child: CarouselSlider.builder(
                 itemCount: widget.productModel.images?.length ?? 0,
                 slideBuilder: (index) {
-
                   String url = widget.productModel.images![index];
 
                   return CachedNetworkImage(
                     imageUrl: url,
                     fit: BoxFit.contain,
                   );
-
                 },
               ),
             ),
-
             const GapWidget(),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("${widget.productModel.title}", style: TextStyles.heading3,),
-                  Text(Formatter.formatPrice(widget.productModel.price!), style: TextStyles.heading2,),
-
-                  const GapWidget(size: 10),
-
-                  BlocBuilder<CartCubit, CartState>(
-                      builder: (context, state) {
-                        bool isInCart = BlocProvider.of<CartCubit>(context).cartContains(widget.productModel);
-
-                        return PrimaryButton(
-                            onPressed: () {
-                              if(isInCart) {
-                                return;
-                              }
-
-                              BlocProvider.of<CartCubit>(context).addToCart(widget.productModel, 1);
-                            },
-                            color: (isInCart) ? AppColors.textLight : AppColors.accent,
-                            text: (isInCart) ? "Product added to cart" : "Add to Cart", textColor: AppColors.white,
-                        );
-                      }
+                  Text(
+                    "${widget.productModel.title}",
+                    style: TextStyles.heading3,
                   ),
-
+                  Text(
+                    Formatter.formatPrice(widget.productModel.price!),
+                    style: TextStyles.heading2,
+                  ),
                   const GapWidget(size: 10),
+                  BlocBuilder<CartCubit, CartState>(builder: (context, state) {
+                    bool isInCart = BlocProvider.of<CartCubit>(context)
+                        .cartContains(widget.productModel);
 
-                  Text("Description", style: TextStyles.body2.copyWith(fontWeight: FontWeight.bold),),
-                  Text("${widget.productModel.description}", style: TextStyles.body1,),
+                    return PrimaryButton(
+                      onPressed: () {
+                        if (isInCart) {
+                          return;
+                        }
+
+                        BlocProvider.of<CartCubit>(context)
+                            .addToCart(widget.productModel, 1);
+                      },
+                      color:
+                          (isInCart) ? AppColors.textLight : AppColors.accent,
+                      text:
+                          (isInCart) ? "Product added to cart" : "Add to Cart",
+                      textColor: AppColors.white,
+                    );
+                  }),
+                  const GapWidget(size: 10),
+                  Text(
+                    "Description",
+                    style:
+                        TextStyles.body2.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${widget.productModel.description}",
+                    style: TextStyles.body1,
+                  ),
                 ],
               ),
             )
-
           ],
         ),
       ),

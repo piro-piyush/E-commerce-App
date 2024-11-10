@@ -12,7 +12,7 @@ class CartCubit extends Cubit<CartState> {
   final UserCubit _userCubit;
   StreamSubscription? _userSubscription;
 
-  CartCubit(this._userCubit) : super( CartInitialState() ) {
+  CartCubit(this._userCubit) : super(CartInitialState()) {
     // initial Value
     _handleUserState(_userCubit.state);
 
@@ -21,11 +21,10 @@ class CartCubit extends Cubit<CartState> {
   }
 
   void _handleUserState(UserState userState) {
-    if(userState is UserLoggedInState) {
+    if (userState is UserLoggedInState) {
       _initialize(userState.userModel.sId!);
-    }
-    else if(userState is UserLoggedOutState) {
-      emit( CartInitialState() );
+    } else if (userState is UserLoggedOutState) {
+      emit(CartInitialState());
     }
   }
 
@@ -33,68 +32,68 @@ class CartCubit extends Cubit<CartState> {
 
   void sortAndLoad(List<CartItemModel> items) {
     items.sort((a, b) => b.product!.title!.compareTo(a.product!.title!));
-    emit( CartLoadedState(items) );
+    emit(CartLoadedState(items));
   }
 
-  void _initialize(String userId)  async {
-    emit( CartLoadingState(state.items) );
+  void _initialize(String userId) async {
+    emit(CartLoadingState(state.items));
     try {
       final items = await _cartRepository.fetchCartByUserId(userId);
       sortAndLoad(items);
-    }
-    catch(ex) {
-      emit( CartErrorState(ex.toString(), state.items) );
+    } catch (ex) {
+      emit(CartErrorState(ex.toString(), state.items));
     }
   }
 
   void addToCart(ProductModel product, int quantity) async {
-    emit( CartLoadingState(state.items) );
+    emit(CartLoadingState(state.items));
     try {
-      if(_userCubit.state is UserLoggedInState) {
+      if (_userCubit.state is UserLoggedInState) {
         UserLoggedInState userState = _userCubit.state as UserLoggedInState;
 
-        CartItemModel newItem = CartItemModel(
-            product: product,
-            quantity: quantity
-        );
+        CartItemModel newItem =
+            CartItemModel(product: product, quantity: quantity);
 
-        final items = await _cartRepository.addToCart(userState.userModel.sId!,newItem, );
+        final items = await _cartRepository.addToCart(
+          newItem,
+          userState.userModel.sId!,
+        );
         sortAndLoad(items);
+      } else {
+        throw "An error occurred while adding the item!";
       }
-      else {
-        throw "An error occured while adding the item!";
-      }
-    }
-    catch(ex) {
-      emit( CartErrorState(ex.toString(), state.items) );
+    } catch (ex) {
+      emit(CartErrorState(ex.toString(), state.items));
     }
   }
 
   void removeFromCart(ProductModel product) async {
-    emit( CartLoadingState(state.items) );
+    emit(CartLoadingState(state.items));
     try {
-      if(_userCubit.state is UserLoggedInState) {
+      if (_userCubit.state is UserLoggedInState) {
         UserLoggedInState userState = _userCubit.state as UserLoggedInState;
 
-        final items = await _cartRepository.removeFromCart(product.sId!, userState.userModel.sId!);
+        final items = await _cartRepository.removeFromCart(
+          userState.userModel.sId!,
+          product.sId!,
+        );
         sortAndLoad(items);
+      } else {
+        throw "An error occurred while removing the item!";
       }
-      else {
-        throw "An error occured while removing the item!";
-      }
-    }
-    catch(ex) {
-      emit( CartErrorState(ex.toString(), state.items) );
+    } catch (ex) {
+      emit(CartErrorState(ex.toString(), state.items));
     }
   }
 
   bool cartContains(ProductModel product) {
-    if(state.items.isNotEmpty) {
-      final foundItem = state.items.where((item) => item.product!.sId! == product.sId!).toList();
-      if(foundItem.isNotEmpty) {
+    if (state.items.isNotEmpty) {
+      final foundItem = state.items
+          .where((item) => item.product!.sId! == product.sId!)
+          .toList();
+      if (foundItem.isNotEmpty) {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
     }
@@ -102,7 +101,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
   void clearCart() {
-    emit( CartLoadedState([]) );
+    emit(CartLoadedState([]));
   }
 
   @override
