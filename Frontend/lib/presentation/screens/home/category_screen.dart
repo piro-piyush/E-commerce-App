@@ -5,6 +5,7 @@ import 'package:ecommerce/logic/cubits/cart_cubit/cart_state.dart';
 import 'package:ecommerce/logic/cubits/category_cubit/category_cubit.dart';
 import 'package:ecommerce/logic/cubits/category_cubit/category_state.dart';
 import 'package:ecommerce/presentation/screens/cart/cart_screen.dart';
+import 'package:ecommerce/presentation/screens/product/products_by_category_screen.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     ),
+                    onTap: (){
+                      Navigator.pushNamed(context, ProductsByCategoryScreen.routeName,arguments: category);
+                    },
                     title: Text(
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
