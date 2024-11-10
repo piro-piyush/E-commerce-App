@@ -6,16 +6,19 @@ class PrimaryTextField extends StatefulWidget {
   final TextEditingController? controller;
   final bool obsecureText;
   final String? Function(String?)? validator;
+  final String? initialValue;
+  final Function(String)? onChanged;
   final String? Function(String?)? onSubmitted;
   final FocusNode? focusNode;
 
   const PrimaryTextField({
     super.key,
+    this.initialValue,
     required this.labelText,
     this.controller,
     this.onSubmitted,
     this.obsecureText = false,
-    this.validator, this.focusNode,
+    this.validator, this.focusNode, this.onChanged,
   });
 
   @override
@@ -43,8 +46,10 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
       controller: widget.controller,
       obscureText: myObsecure,
       validator: widget.validator,
+      initialValue: widget.initialValue,
       focusNode: widget.focusNode ?? FocusNode(),
       onFieldSubmitted:widget.onSubmitted,
+      onChanged: widget.onChanged,
       decoration: InputDecoration(
         labelText: widget.labelText,
         labelStyle: const TextStyle(color: Colors.black),

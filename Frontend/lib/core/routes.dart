@@ -10,6 +10,7 @@ import 'package:ecommerce/presentation/screens/home/home_screen.dart';
 import 'package:ecommerce/presentation/screens/product/product_details_screen.dart';
 import 'package:ecommerce/presentation/screens/product/products_by_category_screen.dart';
 import 'package:ecommerce/presentation/screens/splash/splash_screen.dart';
+import 'package:ecommerce/presentation/screens/user/edit_profile_screen.dart';
 import 'package:ecommerce/presentation/widgets/bottom_nav_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +37,8 @@ class Routes {
         return CupertinoPageRoute(builder: (context) => const BottomNavBar());
       case CartScreen.routeName:
         return CupertinoPageRoute(builder: (context) => const CartScreen());
+      case EditProfileScreen.routeName:
+        return CupertinoPageRoute(builder: (context) => const EditProfileScreen());
       case ProductsByCategoryScreen.routeName:
         return CupertinoPageRoute(
             builder: (context) => BlocProvider(

@@ -1,7 +1,11 @@
 import 'package:ecommerce/core/ui.dart';
 import 'package:ecommerce/data/models/users/user_model.dart';
+import 'package:ecommerce/logic/cubits/cart_cubit/cart_cubit.dart';
+import 'package:ecommerce/logic/cubits/cart_cubit/cart_state.dart';
 import 'package:ecommerce/logic/cubits/user_cubit/user_cubit.dart';
 import 'package:ecommerce/logic/cubits/user_cubit/user_state.dart';
+import 'package:ecommerce/presentation/screens/cart/cart_screen.dart';
+import 'package:ecommerce/presentation/screens/user/edit_profile_screen.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
 import 'package:ecommerce/presentation/widgets/link_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,9 +26,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: const Text("E-commerce"),
         actions: [
-          Icon(
-            Icons.shopping_cart,
-            color: AppColors.text,
+          CupertinoButton(
+            onPressed: () {
+              Navigator.pushNamed(context, CartScreen.routeName);
+            },
+            child: BlocBuilder<CartCubit, CartState>(builder: (context, state) {
+              return state.items.isEmpty
+                  ? Icon(Icons.shopping_cart_outlined, color: AppColors.text)
+                  : Badge(
+                      label: Text(state.items.length.toString()),
+                      isLabelVisible: state is CartLoadingState ? false : true,
+                      child: Icon(Icons.shopping_cart));
+            }),
           ),
           const GapWidget()
         ],
@@ -62,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Text(
                 // "${userModel.fullName}",
-                "Piyush Kumar",
+                "${userModel.fullName}",
                 style: TextStyles.heading3,
               ),
               Text(
@@ -72,22 +85,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
               LinkButton(
                 text: "Edit Profile",
                 color: AppColors.accent,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, EditProfileScreen.routeName);
+                },
               )
             ],
           ),
           Divider(),
           ListTile(
-            onTap: (){},
-            title: Text("My Orders",style: TextStyles.body1,),
-            leading: Icon(CupertinoIcons.cube_box_fill,),
+            onTap: () {},
+            title: Text(
+              "My Orders",
+              style: TextStyles.body1,
+            ),
+            leading: Icon(
+              CupertinoIcons.cube_box_fill,
+            ),
           ),
           ListTile(
-            onTap: (){
+            onTap: () {
               BlocProvider.of<UserCubit>(context).signOut();
             },
-            title: Text("Sign Out",style: TextStyles.body1.copyWith(color: Colors.red),),
-            leading: Icon(Icons.exit_to_app,color: Colors.red,),
+            title: Text(
+              "Sign Out",
+              style: TextStyles.body1.copyWith(color: Colors.red),
+            ),
+            leading: Icon(
+              Icons.exit_to_app,
+              color: Colors.red,
+            ),
           )
         ],
       ),
