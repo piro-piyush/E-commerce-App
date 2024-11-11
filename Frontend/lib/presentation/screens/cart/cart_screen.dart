@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
-  static const routeName = "cart";
+  static const routeName = "/cartScreen";
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -76,7 +76,7 @@ class _CartScreenState extends State<CartScreen> {
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "Total: ${Formatter.formatPrice(Calculations.cartTotal(state.items))}",
+                            "Total: ${Formatter.formatPrice(Calculations.cartTotal(state.items).toInt())}",
                             style: TextStyles.heading3,
                           ),
                         ],

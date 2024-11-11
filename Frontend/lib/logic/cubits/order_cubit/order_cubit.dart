@@ -5,6 +5,7 @@ import 'package:ecommerce/data/repositories/order_repository.dart';
 import 'package:ecommerce/logic/cubits/cart_cubit/cart_cubit.dart';
 import 'package:ecommerce/logic/cubits/order_cubit/order_state.dart';
 import 'package:ecommerce/logic/cubits/user_cubit/user_cubit.dart';
+import 'package:ecommerce/logic/services/calculation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../user_cubit/user_state.dart';
@@ -53,6 +54,7 @@ class OrderCubit extends Cubit<OrderState> {
 
       OrderModel newOrder = OrderModel(
           items: items,
+          totalAmount: Calculations.cartTotal(items),
           user: (_userCubit.state as UserLoggedInState).userModel,
           status: (paymentMethod == "pay-on-delivery")
               ? "order-placed"
@@ -65,11 +67,30 @@ class OrderCubit extends Cubit<OrderState> {
 
       // Clear the cart
       _cartCubit.clearCart();
-
       return order;
     } catch (ex) {
       emit(OrderErrorState(ex.toString(), state.orders));
       return null;
+    }
+  }
+
+  Future<bool> updateOrder(OrderModel orderModel,
+      {String? paymentId, String? signature}) async {
+    try {
+      OrderModel updatedOrder = await _orderRepository.updateOrder(orderModel,
+          paymentId: paymentId, signature: signature);
+
+      int index = state.orders.indexOf(updatedOrder);
+      if (index == -1) return false;
+
+      List<OrderModel> newList = state.orders;
+      newList[index] = updatedOrder;
+
+      emit(OrderLoadedState(newList));
+      return true;
+    } catch (ex) {
+      emit(OrderErrorState(ex.toString(), state.orders));
+      return false;
     }
   }
 

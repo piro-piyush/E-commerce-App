@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MyOrdersScreen extends StatefulWidget {
-  static const String routeName = "myOrdersScreen";
+  static const String routeName = "/myOrdersScreen";
 
   const MyOrdersScreen({super.key});
 
@@ -59,7 +59,7 @@ class _MyOrderScreenState extends State<MyOrdersScreen> {
                           style: TextStyles.body2
                               .copyWith(color: AppColors.accent)),
                       Text(
-                          "Order Total : ${Formatter.formatPrice(Calculations.cartTotal(order.items!))}",
+                          "Order Total : ${Formatter.formatPrice(Calculations.cartTotal(order.items!).toInt())}",
                           style: TextStyles.body1
                               .copyWith(fontWeight: FontWeight.bold)),
                       ListView.builder(
@@ -146,7 +146,7 @@ class _MyOrderScreenState extends State<MyOrdersScreen> {
                         style:
                             TextStyles.body2.copyWith(color: AppColors.accent)),
                     Text(
-                        "Order Total : ${Formatter.formatPrice(Calculations.cartTotal(order.items!))}",
+                        "Order Total : ${Formatter.formatPrice(Calculations.cartTotal(order.items!).toInt())}",
                         style: TextStyles.body1
                             .copyWith(fontWeight: FontWeight.bold)),
                     ListView.builder(
@@ -178,7 +178,8 @@ class _MyOrderScreenState extends State<MyOrdersScreen> {
                             ),
                             minVerticalPadding: 20,
                           );
-                        })
+                        }),
+                    Text("Status : ${order.status}")
                   ],
                 );
               });
