@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce/core/api.dart';
 import 'package:ecommerce/data/models/order/order_model.dart';
 
-class CartRepository {
+class OrderRepository {
   final _api = Api();
 
   Future<List<OrderModel>> fetchOrderByUserId(String userId) async {

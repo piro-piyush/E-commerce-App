@@ -9,6 +9,7 @@ import 'package:ecommerce/presentation/screens/user/edit_profile_screen.dart';
 import 'package:ecommerce/presentation/widgets/cart_list_view.dart';
 import 'package:ecommerce/presentation/widgets/gap_widget.dart';
 import 'package:ecommerce/presentation/widgets/link_button.dart';
+import 'package:ecommerce/presentation/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -129,7 +130,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   ),
                 ],
               );
-            })
+            }),
+            GapWidget(),
+            PrimaryButton(text: "Place Order", color: AppColors.accent, textColor: AppColors.white,)
           ],
         )));
   }
