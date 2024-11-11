@@ -28,7 +28,10 @@ class EcommerceApp extends StatelessWidget {
         BlocProvider(create: (context) => CategoryCubit()),
         BlocProvider(create: (context) => ProductCubit()),
         BlocProvider(create: (context) => CartCubit(BlocProvider.of<UserCubit>(context))),
-        BlocProvider(create: (context) => OrderCubit(BlocProvider.of<UserCubit>(context))),
+        BlocProvider(create: (context) => OrderCubit(
+          BlocProvider.of<UserCubit>(context),
+          BlocProvider.of<CartCubit>(context),
+        )),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

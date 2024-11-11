@@ -1,4 +1,5 @@
 import 'package:ecommerce/core/ui.dart';
+import 'package:ecommerce/data/models/order/order_model.dart';
 import 'package:ecommerce/data/models/users/user_model.dart';
 import 'package:ecommerce/logic/cubits/cart_cubit/cart_cubit.dart';
 import 'package:ecommerce/logic/cubits/cart_cubit/cart_state.dart';
@@ -138,14 +139,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               color: AppColors.accent,
               textColor: AppColors.white,
               onPressed: () async {
-                bool success = await BlocProvider.of<OrderCubit>(context)
+                OrderModel? newOrder = await BlocProvider.of<OrderCubit>(context)
                     .createOrder(
                         items: BlocProvider.of<CartCubit>(context).state.items,
                         paymentMethod: Provider.of<OrderDetailProvider>(context,
                                 listen: false)
                             .paymentMethod
                             .toString());
-                if (success) {
+                if (newOrder != null) {
                   Navigator.popUntil(context, (route) => route.isFirst);
                   Navigator.pushReplacementNamed(context, OrdersPlacedScreen.routeName);
                 }
