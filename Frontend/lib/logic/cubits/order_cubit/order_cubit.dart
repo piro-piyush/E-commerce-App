@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:ecommerce/data/repositories/order_repository.dart';
-import 'package:ecommerce/logic/cubits/cart_cubit/cart_state.dart';
 import 'package:ecommerce/logic/cubits/order_cubit/order_state.dart';
 import 'package:ecommerce/logic/cubits/user_cubit/user_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
