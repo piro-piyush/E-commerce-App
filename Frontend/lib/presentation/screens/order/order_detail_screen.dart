@@ -139,8 +139,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               color: AppColors.accent,
               textColor: AppColors.white,
               onPressed: () async {
-                OrderModel? newOrder = await BlocProvider.of<OrderCubit>(context)
-                    .createOrder(
+                OrderModel? newOrder =
+                    await BlocProvider.of<OrderCubit>(context).createOrder(
                         items: BlocProvider.of<CartCubit>(context).state.items,
                         paymentMethod: Provider.of<OrderDetailProvider>(context,
                                 listen: false)
@@ -148,7 +148,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             .toString());
                 if (newOrder != null) {
                   Navigator.popUntil(context, (route) => route.isFirst);
-                  Navigator.pushReplacementNamed(context, OrdersPlacedScreen.routeName);
+                  Navigator.pushNamed(context, OrdersPlacedScreen.routeName);
                 }
               },
             )

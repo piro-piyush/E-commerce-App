@@ -32,7 +32,8 @@ class OrderModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['user'] = user!.toJson();
-    data['items'] = items!.map((item) => item.toJson(objectMode: true)).toList();
+    data['items'] =
+        items!.map((item) => item.toJson(objectMode: true)).toList();
     data['status'] = this.status;
     data['updatedOn'] = this.updatedOn;
     data['createdOn'] = this.createdOn;

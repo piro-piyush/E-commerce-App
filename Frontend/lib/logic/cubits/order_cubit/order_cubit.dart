@@ -14,7 +14,7 @@ class OrderCubit extends Cubit<OrderState> {
   final CartCubit _cartCubit;
   StreamSubscription? _userSubscription;
 
-  OrderCubit(this._userCubit,this._cartCubit) : super(OrderInitialState()) {
+  OrderCubit(this._userCubit, this._cartCubit) : super(OrderInitialState()) {
     // initial Value
     _handleUserState(_userCubit.state);
 
@@ -42,34 +42,33 @@ class OrderCubit extends Cubit<OrderState> {
     }
   }
 
-  Future<OrderModel?> createOrder({
-    required List<CartItemModel> items,
-    required String paymentMethod
-  }) async {
-    emit( OrderLoadingState(state.orders) );
+  Future<OrderModel?> createOrder(
+      {required List<CartItemModel> items,
+      required String paymentMethod}) async {
+    emit(OrderLoadingState(state.orders));
     try {
-      if(_userCubit.state is! UserLoggedInState) {
+      if (_userCubit.state is! UserLoggedInState) {
         return null;
       }
 
       OrderModel newOrder = OrderModel(
           items: items,
           user: (_userCubit.state as UserLoggedInState).userModel,
-          status: (paymentMethod == "pay-on-delivery") ? "order-placed" : "payment-pending"
-      );
+          status: (paymentMethod == "pay-on-delivery")
+              ? "order-placed"
+              : "payment-pending");
       final order = await _orderRepository.createOrder(newOrder);
 
-      List<OrderModel> orders = [ order, ...state.orders ];
+      List<OrderModel> orders = [order, ...state.orders];
 
-      emit( OrderLoadedState(orders) );
+      emit(OrderLoadedState(orders));
 
       // Clear the cart
       _cartCubit.clearCart();
 
       return order;
-    }
-    catch(ex) {
-      emit( OrderErrorState(ex.toString(), state.orders) );
+    } catch (ex) {
+      emit(OrderErrorState(ex.toString(), state.orders));
       return null;
     }
   }
