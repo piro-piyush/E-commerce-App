@@ -102,7 +102,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 shrinkWrap: true,
                 noScroll: true,
               );
-              return SizedBox();
             }),
             GapWidget(),
             Text(

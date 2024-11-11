@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:ecommerce/core/api.dart';
-import 'package:ecommerce/data/models/cart/cart_item_model.dart';
 import 'package:ecommerce/data/models/order/order_model.dart';
 
 class CartRepository {
