@@ -3,6 +3,7 @@ import 'package:ecommerce/logic/cubits/cart_cubit/cart_cubit.dart';
 import 'package:ecommerce/logic/cubits/cart_cubit/cart_state.dart';
 import 'package:ecommerce/logic/services/calculation.dart';
 import 'package:ecommerce/logic/services/formatter.dart';
+import 'package:ecommerce/presentation/screens/order/order_detail_screen.dart';
 import 'package:ecommerce/presentation/widgets/cart_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ class _CartScreenState extends State<CartScreen> {
                       width: MediaQuery.of(context).size.width / 2.5,
                       child: CupertinoButton(
                         onPressed: () {
-                          // Navigator.pushNamed(context, OrderDetailScreen.routeName);
+                          Navigator.pushNamed(context, OrderDetailScreen.routeName);
                         },
                         padding: EdgeInsets.all(
                             MediaQuery.of(context).size.width / 22),
