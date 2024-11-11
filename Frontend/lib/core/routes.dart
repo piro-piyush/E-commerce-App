@@ -7,6 +7,7 @@ import 'package:ecommerce/presentation/screens/auth/providers/signup_provider.da
 import 'package:ecommerce/presentation/screens/auth/signup_screen.dart';
 import 'package:ecommerce/presentation/screens/cart/cart_screen.dart';
 import 'package:ecommerce/presentation/screens/home/home_screen.dart';
+import 'package:ecommerce/presentation/screens/order/my_orders_screen.dart';
 import 'package:ecommerce/presentation/screens/order/order_detail_screen.dart';
 import 'package:ecommerce/presentation/screens/order/orders_placed_screen.dart';
 import 'package:ecommerce/presentation/screens/order/providers/order_detail_provider.dart';
@@ -63,6 +64,8 @@ class Routes {
       case OrdersPlacedScreen.routeName:
         return CupertinoPageRoute(
             builder: (context) => const OrdersPlacedScreen());
+      case MyOrdersScreen.routeName:
+        return CupertinoPageRoute(builder: (context) => const MyOrdersScreen());
       default:
         return null;
     }

@@ -24,6 +24,7 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cart"),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: BlocBuilder<CartCubit, CartState>(builder: (context, state) {
@@ -85,7 +86,8 @@ class _CartScreenState extends State<CartScreen> {
                       width: MediaQuery.of(context).size.width / 2.5,
                       child: CupertinoButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, OrderDetailScreen.routeName);
+                          Navigator.pushNamed(
+                              context, OrderDetailScreen.routeName);
                         },
                         padding: EdgeInsets.all(
                             MediaQuery.of(context).size.width / 22),

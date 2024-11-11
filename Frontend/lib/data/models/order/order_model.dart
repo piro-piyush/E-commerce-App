@@ -6,8 +6,8 @@ class OrderModel {
   UserModel? user;
   List<CartItemModel>? items;
   String? status;
-  String? updatedOn;
-  String? createdOn;
+  DateTime? updatedOn;
+  DateTime? createdOn;
 
   OrderModel(
       {this.sId,
@@ -24,8 +24,8 @@ class OrderModel {
         .map((item) => CartItemModel.fromJson(item))
         .toList();
     status = json['status'];
-    updatedOn = json['updatedOn'];
-    createdOn = json['createdOn'];
+    updatedOn = DateTime.tryParse(json['updatedOn']);
+    createdOn = DateTime.tryParse(json['createdOn']);
   }
 
   Map<String, dynamic> toJson() {
@@ -35,8 +35,8 @@ class OrderModel {
     data['items'] =
         items!.map((item) => item.toJson(objectMode: true)).toList();
     data['status'] = this.status;
-    data['updatedOn'] = this.updatedOn;
-    data['createdOn'] = this.createdOn;
+    data['updatedOn'] = this.updatedOn?.toIso8601String();
+    data['createdOn'] = this.createdOn?.toIso8601String();
     return data;
   }
 }
