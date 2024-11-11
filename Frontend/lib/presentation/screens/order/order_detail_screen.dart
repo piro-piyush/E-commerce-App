@@ -2,8 +2,10 @@ import 'package:ecommerce/core/ui.dart';
 import 'package:ecommerce/data/models/users/user_model.dart';
 import 'package:ecommerce/logic/cubits/cart_cubit/cart_cubit.dart';
 import 'package:ecommerce/logic/cubits/cart_cubit/cart_state.dart';
+import 'package:ecommerce/logic/cubits/order_cubit/order_cubit.dart';
 import 'package:ecommerce/logic/cubits/user_cubit/user_cubit.dart';
 import 'package:ecommerce/logic/cubits/user_cubit/user_state.dart';
+import 'package:ecommerce/presentation/screens/order/orders_placed_screen.dart';
 import 'package:ecommerce/presentation/screens/order/providers/order_detail_provider.dart';
 import 'package:ecommerce/presentation/screens/user/edit_profile_screen.dart';
 import 'package:ecommerce/presentation/widgets/cart_list_view.dart';
@@ -110,29 +112,45 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               style: TextStyles.body2.copyWith(fontWeight: FontWeight.bold),
             ),
             GapWidget(),
-            Consumer<OrderDetailProvider>(
-                builder: (context,provider,child){
+            Consumer<OrderDetailProvider>(builder: (context, provider, child) {
               return Column(
                 children: [
                   RadioListTile(
                     value: "pay-on-delivery",
                     contentPadding: EdgeInsets.zero,
                     groupValue: provider.paymentMethod,
-                    onChanged:provider.changePaymentMethod,
+                    onChanged: provider.changePaymentMethod,
                     title: Text("Pay on Delivery"),
                   ),
                   RadioListTile(
                     value: "pay-now",
                     contentPadding: EdgeInsets.zero,
                     groupValue: provider.paymentMethod,
-                    onChanged:provider.changePaymentMethod,
+                    onChanged: provider.changePaymentMethod,
                     title: Text("Pay Now"),
                   ),
                 ],
               );
             }),
             GapWidget(),
-            PrimaryButton(text: "Place Order", color: AppColors.accent, textColor: AppColors.white,)
+            PrimaryButton(
+              text: "Place Order",
+              color: AppColors.accent,
+              textColor: AppColors.white,
+              onPressed: () async {
+                bool success = await BlocProvider.of<OrderCubit>(context)
+                    .createOrder(
+                        items: BlocProvider.of<CartCubit>(context).state.items,
+                        paymentMethod: Provider.of<OrderDetailProvider>(context,
+                                listen: false)
+                            .paymentMethod
+                            .toString());
+                if (success) {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushReplacementNamed(context, OrdersPlacedScreen.routeName);
+                }
+              },
+            )
           ],
         )));
   }
