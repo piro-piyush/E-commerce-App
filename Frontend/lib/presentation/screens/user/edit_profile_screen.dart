@@ -34,8 +34,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           if (state is UserErrorState) {
             return Center(
                 child: Text(
-              state.errorMessage,
-            ));
+                  state.errorMessage,
+                ));
           }
           if (state is UserLoggedInState) {
             return editProfile(state.userModel);
@@ -76,11 +76,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
           GapWidget(),
           PrimaryTextField(
-              labelText: "Phone number",
-              initialValue: userModel.phoneNumber,
-              onChanged: (value) {
-                userModel.phoneNumber = value;
-              },
+            labelText: "Phone number",
+            initialValue: userModel.phoneNumber,
+            onChanged: (value) {
+              userModel.phoneNumber = value;
+            },
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "Please enter your phone number";

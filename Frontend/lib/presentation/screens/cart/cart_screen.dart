@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
-  static const routeName = "cart";
+  static const routeName = "/cartScreen";
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -24,6 +24,7 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cart"),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: BlocBuilder<CartCubit, CartState>(builder: (context, state) {
@@ -75,7 +76,7 @@ class _CartScreenState extends State<CartScreen> {
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "Total: ${Formatter.formatPrice(Calculations.cartTotal(state.items))}",
+                            "Total: ${Formatter.formatPrice(Calculations.cartTotal(state.items).toInt())}",
                             style: TextStyles.heading3,
                           ),
                         ],
@@ -85,7 +86,8 @@ class _CartScreenState extends State<CartScreen> {
                       width: MediaQuery.of(context).size.width / 2.5,
                       child: CupertinoButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, OrderDetailScreen.routeName);
+                          Navigator.pushNamed(
+                              context, OrderDetailScreen.routeName);
                         },
                         padding: EdgeInsets.all(
                             MediaQuery.of(context).size.width / 22),
