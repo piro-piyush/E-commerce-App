@@ -1,125 +1,198 @@
+# 🛒 E-Commerce App
 
-# E-Commerce App
+This is a fully functional E-commerce application built with Flutter and Dart on the frontend and Node.js, Express, and MongoDB on the backend. The app features a comprehensive shopping experience, from browsing products to payment and order management, with authentication, user profile management, and order history.
 
-An **E-Commerce** mobile application built with **Flutter**, **Node.js**, **Express**, and **MongoDB**. The app allows users to log in, view products, and interact with various features of an e-commerce platform. This project is designed to demonstrate state management using **Cubit** and **Provider** in Flutter.
+---
 
-## Table of Contents
+## 📱 Features
 
-- [Project Overview](#project-overview)
-- [Tech Stack](#tech-stack)
-- [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Project Structure](#project-structure)
-- [Learning Journey](#learning-journey)
-- [Contributing](#contributing)
-- [License](#license)
+- **Product Catalog**: Browse available products, view product details, and add items to the cart.
+- **Cart Management**: Add and remove items, adjust quantities.
+- **Checkout and Payment**: Choose a payment method and process payments via Razorpay.
+- **User Profile Management**: Login, signup, and profile updates.
+- **Order History**: View previous orders in the profile section.
+- **Sign Out**: Easily sign out from the profile screen.
 
-## Project Overview
+## 🛠 Tech Stack
 
-This project aims to build a simple yet scalable e-commerce mobile app using modern technologies like **Flutter**, **Node.js**, **Express**, and **MongoDB**. The app includes user authentication, product listings, and other e-commerce functionalities. 
+### Frontend
 
-**Day 2 Progress:**
-- Implemented **Cubit** for state management and **Provider** for dependency injection.
-- Developed a **User Login** system where users can log in securely and access their personalized content.
+- **Flutter** with **Dart**
+- State management with **Provider** and **BLoC**
+- **Razorpay** for payment integration
 
-## Tech Stack
+### Backend
 
-- **Frontend:**
-  - Flutter
-  - Dart
-- **Backend:**
-  - Node.js
-  - Express
-  - MongoDB
-- **State Management:**
-  - Cubit
-  - Provider
+- **Node.js**, **Express**
+- **MongoDB** database hosted on Render.com
 
-## Features
+## 📦 Packages Used
 
-- **User Authentication:**
-  - User login using email and password.
-  - Account creation and secure login system.
-- **Product Listing (Future Implementation):**
-  - Display products available in the store.
-- **Cart and Checkout (Future Implementation):**
-  - Add products to the cart and checkout.
+The following packages are used in the Flutter app:
 
-## Getting Started
+- `flutter_bloc: ^8.1.6` - BLoC for state management
+- `provider: ^6.1.2` - Provider for dependency injection
+- `dio: ^5.7.0` - HTTP client for API calls
+- `pretty_dio_logger: ^1.4.0` - Logging for Dio requests
+- `cupertino_icons: ^1.0.8` - Cupertino icons for iOS-styled icons
+- `email_validator: ^3.0.0` - Email validation for forms
+- `shared_preferences: ^2.3.2` - Local storage for user preferences
+- `cached_network_image: ^3.4.1` - Image caching
+- `intl: ^0.19.0` - Internationalization and formatting
+- `flutter_carousel_slider: ^1.1.0` - Product image carousel
+- `input_quantity: ^2.4.1` - Quantity selector in cart
+- `badges: ^3.1.2` - Badges for notifications, cart icon, etc.
+- `razorpay_flutter: ^1.3.7` - Razorpay payment integration
+- `equatable: ^2.0.5` - Comparison utility for state management
+- `skeletonizer: ^1.4.2` - Skeleton screens for loading effects
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
+Ensure you have Flutter and Dart installed. You can check this by running:
 
-- [Flutter](https://flutter.dev/docs/get-started/install) for building mobile applications.
-- [Node.js](https://nodejs.org/en/download/) for the backend server.
-- [MongoDB](https://www.mongodb.com/try/download/community) for database management.
+```bash
+flutter --version
+```
 
 ### Installation
 
-Follow these steps to get your development environment set up and running:
+1. **Clone the repository**:
 
-1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/ecommerce-app.git
-   cd ecommerce-app
+   git clone https://github.com/piro-piyush/E-commerce-App.git
+   cd E-commerce-App
    ```
 
-2. **Set up the backend:**
-   - Navigate to the backend folder:
-     ```bash
-     cd backend
-     ```
-   - Install backend dependencies:
-     ```bash
-     npm install
-     ```
-   - Start the server:
-     ```bash
-     npm start
-     ```
-   - Your backend API will be running on `http://localhost:8000/api`.
+2. **Install dependencies**:
 
-3. **Set up the Flutter app:**
-   - Navigate to the Flutter project folder:
-     ```bash
-     cd flutter_app
-     ```
-   - Install Flutter dependencies:
-     ```bash
-     flutter pub get
-     ```
-   - Run the app:
-     ```bash
-     flutter run
-     ```
+   ```bash
+   flutter pub get
+   ```
 
-4. **Access the app** in your emulator or on a connected device.
+3. **Configure Backend**:
+   Ensure that your backend server is set up on Render.com and replace the API endpoint in the Flutter project as required.
 
-## Project Structure
+4. **Run the App**:
+   ```bash
+   flutter run
+   ```
 
-The project is divided into two main parts:
+---
 
-- **Backend:**
-  - Node.js and Express app handling API requests and interacting with MongoDB.
-  - API endpoints for user authentication and account management.
-  
-- **Flutter App:**
-  - User login functionality integrated with **Cubit** and **Provider**.
-  - UI components for user login, including form validation and feedback.
+## 🎬 Demo
 
-## Learning Journey
+Screenshots for each screen are available in the `assets` folder, and a screen recording is also provided as `demo.gif` in the root directory.
 
-**Day 2 Updates:**
-- Learned and implemented **Cubit** for efficient state management, along with **Provider** for dependency injection.
-- Successfully built and integrated the **User Login** functionality, enabling users to securely sign in.
+### Screenshots
 
-## Contributing
+<table>
+  <tr align="center">
+    <td align="center">
+      <p>Login Screen</p>
+      <img src="assets/login.png" width="250"/>
+    </td>
+    <td align="center">
+      <p>SignUp Screen</p>
+      <img src="assets/signup.png" width="250"/>
+    </td>
+    <td align="center">
+      <p>Home Screen</p>
+      <img src="assets/home.png" width="250"/>
+    </td>
+    <td align="center">
+      <p>Categories</p>
+      <img src="assets/all_categories.png" width="250"/>
+    </td>
+  </tr>
+  <tr align="center">
+    <td align="center">
+      <p>Product Details Screen</p>
+      <img src="assets/product_details.png" width="250"/>
+    </td>
+    <td align="center">
+      <p>Cart Screen</p>
+      <img src="assets/cart.png" width="250"/>
+    </td>
+     <td align="center">
+      <p>Profile Screen</p>
+      <img src="assets/profile.png" width="250"/>
+    </td>
+    <td align="center">
+      <p>Checkout Screen</p>
+      <img src="assets/onboarding.png" width="250"/>
+    </td>
+  </tr>
+  <tr align="center">
+    <td align="center">
+      <p>Razorpay Screen</p>
+      <img src="assets/razorpay.png" width="250"/>
+    </td>
+    <td align="center">
+      <p>Razorpay Success Screen</p>
+      <img src="assets/razorpay_success.png" width="250"/>
+    </td>
+     <td align="center">
+      <p>Order Placed Screen</p>
+      <img src="assets/order_placed.png" width="250"/>
+    </td>
+    <td align="center">
+      <p>Products By Category Screen</p>
+      <img src="assets/products_by_category.png" width="250"/>
+    </td>
+  </tr>
+</table>
 
-Feel free to fork the repository and submit pull requests. If you encounter issues or have suggestions for improvements, please open an issue.
+---
 
-## License
+### Demo Video
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+A screen recording is available as `demo.gif` in the root directory to showcase the app flow.
+
+**Screen Recording**
+
+<p align="center">
+  <img src="assets/demo.gif" width="250"/>
+   </p>
+
+---
+
+## 🔐 Authentication
+
+- **Sign Up / Login**: Users can create an account or log in to their existing account.
+- **Session Management**: User sessions are managed locally using shared preferences.
+
+---
+
+## 📂 Folder Structure
+
+- `E-commerce-App/Frontend/lib/core/api.dart`: Contains API endpoint configurations.
+- `E-commerce-App/Frontend/lib/core/routes.dart`: Contains API endpoint configurations.
+- `E-commerce-App/Frontend/lib/core/ui.dart`: Contains API endpoint configurations.
+- `E-commerce-App/Frontend/lib/data/models`: Includes the data models.
+- `E-commerce-App/Frontend/lib/data/repositories`: Contains repositories for data access and handling.
+- `E-commerce-App/Frontend/lib/logic/cubit/`: State management cubits for handling business logic.
+- `E-commerce-App/Frontend/lib/logic/services/`: Contains service classes for API calls and other logic.
+- `E-commerce-App/Frontend/lib/presentation/screen`: Contains service classes for API calls and other logic.
+- `E-commerce-App/Frontend/lib/presentation/widgets`: Custom reusable widgets for UI components.
+- `E-commerce-App/Frontend/lib/main.dart`: Custom reusable widgets for UI components.
+- `E-commerce-App/assets`: Custom reusable widgets for UI components.
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 📧 Contact
+
+For any issues or inquiries, feel free to reach out.
+
+---
+
+Happy Shopping! 🛍️
