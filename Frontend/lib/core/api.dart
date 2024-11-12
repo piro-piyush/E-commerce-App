@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-const String baseUrl = "http://192.168.1.5:8000/api";
+const String baseUrl = "https://e-commerce-app-ruuc.onrender.com/api";
 const Map<String, dynamic> defaultHeaders = {
   'Content-Type':'application/json'
 };
@@ -33,9 +33,8 @@ class ApiResponse {
   factory ApiResponse.fromResponse(Response response){
     final data =response.data as Map<String, dynamic>;
     return ApiResponse(
-      success: data["success"],
-      data: data["data"],
-      message: data["message"] ?? "Unexpected error"
+        success: data["success"],
+        data: data["data"],
+        message: data["message"] ?? "Unexpected error"
     );
   }
-}
